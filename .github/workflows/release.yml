@@ -1,0 +1,38 @@
+name: Build & Publish to PyPi
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  publish:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.10]
+        poetry-version: [1.1.15]
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3.0.2
+
+      - name: Setup Python in the CI/CD Pipeline
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup Poetry Package Manager
+        uses: abatillo/actions-poetry@2.1.6
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Upload to PyPi
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          poetry config pypi-token.pypi $PYPI_TOKEN
+          poetry publish --build
