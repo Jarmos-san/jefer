@@ -4,6 +4,10 @@ version = "0.0.1"
 description = "A simple dotfiles manager written in Asynchronous Python code."
 authors = ["Somraj Saha <somraj.mle@gmail.com>"]
 license = "MIT"
+readme = 'README.md'
+
+[tool.poetry.scripts]
+jefer = "jefer.main:app"
 
 [tool.poetry.dependencies]
 python = "^3.10"
