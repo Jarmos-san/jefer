@@ -10,14 +10,7 @@ on:
 
 jobs:
   publish:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [3.10]
-        poetry-version: [1.1.15]
-        os: [ubuntu-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -26,12 +19,12 @@ jobs:
       - name: Setup Python in the CI/CD Pipeline
         uses: actions/setup-python@v4.2.0
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
 
       - name: Setup Poetry Package Manager
         uses: abatilo/actions-poetry@v2
         with:
-          poetry-version: ${{ matrix.poetry-version }}
+          poetry-version: "1.1.15"
 
       - name: Upload to PyPi
         env:
