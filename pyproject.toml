@@ -12,7 +12,6 @@ jefer = "jefer.main:app"
 [tool.poetry.dependencies]
 python = "^3.10"
 typer = {extras = ["all"], version = "^0.6.1"}
-furo = "^2022.9.15"
 
 [tool.poetry.dev-dependencies]
 pydocstyle = "^6.1.1"
