@@ -20,6 +20,9 @@ mypy = "^0.971"
 flake8 = "^5.0.4"
 isort = "^5.10.1"
 pytest = "^7.1.3"
+mkdocs-material = "^8.5.1"
+Pillow = "^9.2.0"
+CairoSVG = "^2.5.2"
 
 [tools.isort]
 profile = "black"
