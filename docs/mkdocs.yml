@@ -69,6 +69,7 @@ copyright: >
 
 plugins:
   - search
-  - social:
-      cards: true
-      cards_dir: assets/images/social
+  # FIXME: The plugins don't install on Vercel for whatever reason, hence breaking the pipeline.
+  # - social:
+  #     cards: true
+  #     cards_dir: assets/images/social
