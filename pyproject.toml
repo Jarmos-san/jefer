@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jefer"
-version = "0.0.1"
+version = "0.0.3"
 description = "A simple dotfiles manager written in asynchronous Python code."
 authors = ["Somraj Saha <somraj.mle@gmail.com>"]
 license = "MIT"
