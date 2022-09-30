@@ -50,6 +50,21 @@ tasks:
     cmds:
       - mkdocs serve
 
+  docs:clean:
+    desc: Clean the generated documentations.
+    summary: |
+      Clean the generated documentations folder to start anew.
+
+      This task will remove the previously generated MkDocs documentations folder to
+      start anew. Use this task after development on the project is complete & you want
+      to perform some cleanup tasks. Or you could also remove the generated folder due to
+      some mess up or whatever.
+    preconditions:
+      - sh: "[ -d site ]"
+        msg: "Failed to delete the docs folder as it doesn't exists."
+    cmds:
+      - rm --recursive --force site
+
   install:deps:
     desc: Install the necessary dependencies for developing the project.
     summary: |
