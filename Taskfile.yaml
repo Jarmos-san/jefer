@@ -59,4 +59,4 @@ tasks:
       further. Use this task after invoking virtual environment creation task & before
       starting the development work on the project.
     cmds:
-      - poetry install
+      - poetry install --no-root
