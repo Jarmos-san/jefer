@@ -210,4 +210,5 @@ tags
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/python,vim,visualstudiocode
-docs/site
+site
+.task
