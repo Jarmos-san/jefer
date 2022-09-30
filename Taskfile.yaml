@@ -1,0 +1,62 @@
+version: "3"
+
+silent: true
+
+tasks:
+  default:
+    desc: Print simple information about Jefer to stdout.
+    summary: |
+      Print basic information about Jefer to stdout.
+
+      This default task is meant to be used primarily for debugging purpose to check if
+      all the arguments & options of Jefer are working as expected. On it's own the task
+      isn't useful but is necessary to check for serious concerns before publishing it to
+      PyPi.
+    cmds:
+      - poetry run jefer
+
+  venv:
+    desc: Activate the Python virtual environment for developing the project.
+    summary: |
+      Activate the Python virtual environment for developing the project.
+
+      This task activates the Python virtual environment using Poetry. It helps in
+      maintaining consistency across all the developmental scripts required for
+      developing the project more easily.
+    cmds:
+      - poetry shell
+
+  docs:build:
+    desc: Build the production-ready documentations before publishing it online.
+    summary: |
+      Build the production-ready documentations.
+
+      This task helps build the documentations using MkDocs before publishing it online.
+      Use this task after updating the documentations for whatever reason & right before
+      publishing it online. Ensure everything is crisp & clear to be viewed online before
+      pushing the latest documentations changes online.
+    cmds:
+      - mkdocs build
+
+  docs:serve:
+    desc: Serve the documentations locally in development mode.
+    summary: |
+      Serve the documentations locally in development mode.
+
+      This task will serve a local version of the documentations during development. Use
+      this task to make changes to documentations & see them live on your browser. So,
+      expect this task to print the URL for local documentations preview before starting
+      the local dev server.
+    cmds:
+      - mkdocs serve
+
+  install:deps:
+    desc: Install the necessary dependencies for developing the project.
+    summary: |
+      Install all the developmental dependencies for the project.
+
+      This task will install all the dev dependencies of the project to develop it
+      further. Use this task after invoking virtual environment creation task & before
+      starting the development work on the project.
+    cmds:
+      - poetry install
