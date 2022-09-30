@@ -1,6 +1,5 @@
 """The main entrypoint file for Jefer."""
 
-
 import typer
 
 app = typer.Typer()
