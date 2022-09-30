@@ -13,7 +13,7 @@ tasks:
       isn't useful but is necessary to check for serious concerns before publishing it to
       PyPi.
     cmds:
-      - poetry run jefer
+      - poetry run jefer {{.CLI_ARGS}}
 
   venv:
     desc: Activate the Python virtual environment for developing the project.
