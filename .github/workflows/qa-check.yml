@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-python@v4.2.0
 
       - name: Install linters & formatters
-        run: pip install black flake8 isort pydocstyle
+        run: pip install black flake8 isort pydocstyle toml
 
       - name: Check for linting & formatting issues
         run: |
