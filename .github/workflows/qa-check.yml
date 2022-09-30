@@ -4,18 +4,25 @@ on:
   push:
     branches:
       - "main"
+  pull_request:
 
 jobs:
   codeQualityCheck:
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
 
-      - name: TODO - Perform some code quality checks.
-        run: echo "Hello World!"
+      - name: Setup Python in the runtime.
+        uses: actions/setup-python@v4.2.0
+
+      - name: Install linters & formatters
+        run: pip install black flake8 isort pydocstyle
+
+      - name: Check for linting & formatting issues
+        run: |
+          isort . --check
+          black . --check
+          flake8 jefer tests
+          pydocstyle .
