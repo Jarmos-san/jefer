@@ -22,7 +22,10 @@ def validate_remote_repo(repo: str) -> bool:
 def init(
     source: Path = typer.Option(
         Path.home() / ".dotfiles", help="The path for storing the dotfiles."
-    )
+    ),
+    remote: str = typer.Option(
+        ..., help="The remote repository for backing up the dotfiles."
+    ),
 ) -> None:
     """Create & initialise an empty Git repository locally."""
     # Store the expanded path as a variable for easier manipulation later on.
@@ -36,6 +39,12 @@ def init(
         subprocess.run(
             ["git", "init", f"{dotfiles_dir}"], check=True, stdout=subprocess.PIPE
         )
+
+        if validate_remote_repo(remote):
+            subprocess.run(
+                ["git", "remote", "add", "origin", f"git@github.com:{remote}"],
+                stdout=subprocess.PIPE,
+            )
         print(f"Created a local Git repository for your dotfiles at {dotfiles_dir}")
     except FileNotFoundError as error:
         print(error)
