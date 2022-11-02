@@ -35,6 +35,12 @@ def init(
     if not dotfiles_dir.exists():
         dotfiles_dir.mkdir(parents=True, exist_ok=True)
 
+    # Dictionary representing the initial data about the local dotfiles repository.
+    jefer_initialisation_data = {"source_dir": str(dotfiles_dir), "dotfiles": []}
+
+    with open(Path(dotfiles_dir / "jefer.json"), "w") as file:
+        json.dump(jefer_initialisation_data, file)
+
     try:
         subprocess.run(
             ["git", "init", f"{dotfiles_dir}"], check=True, stdout=subprocess.PIPE
