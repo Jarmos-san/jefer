@@ -1,5 +1,8 @@
 """The main entrypoint file for Jefer."""
 
+import subprocess
+from pathlib import Path
+
 import typer
 
 app = typer.Typer()
@@ -12,9 +15,25 @@ def message() -> None:
 
 
 @app.command()
-def init() -> None:
-    """Create an empty Git repository on the local system."""
-    pass
+def init(
+    source: Path = typer.Option(
+        Path.home() / ".dotfiles", help="The path for storing the dotfiles."
+    )
+) -> None:
+    """Create & initialise an empty Git repository locally."""
+    # Store the expanded path as a variable for easier manipulation later on.
+    dotfiles_dir = source.expanduser()
+
+    # Create the "dotfiles" source directory if doesn't already exist.
+    if not dotfiles_dir.exists():
+        dotfiles_dir.mkdir(parents=True, exist_ok=True)
+
+    # Initialise the local Git repository properly.
+    subprocess.run(
+        ["git", "init", f"{dotfiles_dir}"], stdout=subprocess.PIPE, check=True
+    )
+
+    print(f"Created a local Git repository for your dotfiles at {dotfiles_dir}")
 
 
 @app.command()
