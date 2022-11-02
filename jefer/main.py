@@ -1,5 +1,6 @@
 """The main entrypoint file for Jefer."""
 
+import json
 import os
 import subprocess
 from pathlib import Path
@@ -7,6 +8,14 @@ from pathlib import Path
 import typer
 
 app = typer.Typer()
+
+
+def validate_remote_repo(repo: str) -> bool:
+    """Utilitarian function to check if a remote repository is valid or not."""
+    # TODO: Configure the logic a bit more using regex to check if the suggested remote
+    # repository is valid or not.
+    print(repo)
+    return True
 
 
 @app.command()
