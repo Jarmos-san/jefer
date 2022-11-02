@@ -2,5 +2,116 @@
 
 site_name: Jefer
 
+repo_url: https://github.com/Jarmos-san/jefer
+repo_name: Jarmos-san/jefer
+edit_uri: edit/main/docs/
+
 theme:
   name: material
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/file-edit-outline
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        name: Switch to Dark Mode
+        icon: material/brightness-7
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        name: Switch to Light Mode
+        icon: material/brightness-4
+      accent: yellow
+      primary: orange
+
+  font:
+    text: Poppins
+    code: "IBM Plex Mono"
+
+  # TODO: Add a brand new logo & favicon for the project. See the docs for more information:
+  # https://squidfunk.github.io/mkdocs-material/setup/changing-the-logo-and-icons/
+  # logo: path/to/file.png
+  # favicon: images/favicon.png
+
+  # TODO: Enable these features later on when the documentations is mature enough.
+  # features:
+  #   - navigation.instant
+  #   - navigation.top
+  #   - navigation.tracking
+  #   - navigation.tabs
+  #   - navigation.tabs.sticky
+  #   - navigation.sections
+  #   - toc.follow
+  #   - toc.integrate
+
+extra:
+  consent:
+    title: Disclaimer for Accepting the Privacy-Related Terms & Conditions (T&Cs)
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+
+  # TODO: Enable Google Analytics for the project. See the documentations for more information:
+  # https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-analytics
+  # analytics:
+  #   provider: google
+  #   property: UA-XXXXXXXX-X
+
+  # TODO: Setup versioned capabilities for the documentations. See the docs for more information on this regard:
+  # https://squidfunk.github.io/mkdocs-material/setup/setting-up-versioning
+
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/Jarmosan
+      name: Jarmos on Twitter
+
+    - icon: fontawesome/brands/github
+      link: https://github.com/Jarmos-san
+      name: Jarmos on GitHub
+
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/jarmos
+      name: Jarmos on LinkedIn
+
+copyright: Copyright &copy; 2022 - Present Somraj Saha
+  #
+# FIXME: For whatever reasons, the social buttons aren't generated.
+# plugins:
+#   - social
+
+markdown_extensions:
+
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
