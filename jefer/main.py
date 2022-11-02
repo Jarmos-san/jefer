@@ -1,17 +1,12 @@
 """The main entrypoint file for Jefer."""
 
+import os
 import subprocess
 from pathlib import Path
 
 import typer
 
 app = typer.Typer()
-
-
-@app.command()
-def message() -> None:
-    """Print a "Hello World!" message."""
-    typer.echo("Hello Jarmos!")
 
 
 @app.command()
@@ -41,15 +36,31 @@ def init(
 
 
 @app.command()
-def remove() -> None:
+def remove(
+    file: Path = typer.Option(..., help="The source file to unlink & remove"),
+) -> None:
     """Remove a source file & its destination link from the system."""
-    pass
+    source_file = Path(Path.cwd() / file).expanduser()
+
+    if source_file.is_symlink():
+        os.unlink(source_file)
+
+    os.remove(source_file)
 
 
 @app.command()
-def link() -> None:
-    """Create a symbolic link for a source file."""
-    pass
+def link(
+    source: Path = typer.Option(
+        ..., help="The source file which should point to a link somewhere else."
+    ),
+    dest: Path = typer.Option(..., help="The destination of the linked source file."),
+) -> None:
+    """Create a symbolic link for an individual source file."""
+    linked_dotfile = Path(Path.home() / dest).expanduser()
+
+    if not linked_dotfile.is_symlink():
+        os.symlink(source, dest)
+        print(f"Successfully created symlink {source} -> {dest}!")
 
 
 @app.command()
@@ -60,8 +71,14 @@ def list() -> None:
 
 @app.command()
 def healthcheck() -> None:
-    """Check if a source file(s) has a linked destination."""
-    pass
+    """Check if all of Jefer's features is working as expected."""
+    try:
+        # Check if "git" was installed or not.
+        subprocess.run(["git", "--version"], stdout=subprocess.DEVNULL, check=True)
+    except FileNotFoundError:
+        print("Git was not found, recheck & reinstall it for Jefer to work properly!")
+
+    # TODO: Create more logic to check if the symlinks aren't corrupted.
 
 
 if __name__ == "__main__":
