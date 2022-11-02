@@ -55,14 +55,8 @@ def list() -> None:
 
 
 @app.command()
-def verify() -> None:
+def healthcheck() -> None:
     """Check if a source file(s) has a linked destination."""
-    pass
-
-
-@app.command()
-def backup() -> None:
-    """Use Git to push the latest updates in the source file to a remote repository."""
     pass
 
 
