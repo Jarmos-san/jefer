@@ -17,7 +17,9 @@ jobs:
       - name: Setup Python in the runtime.
         uses: actions/setup-python@v4.3.0
         with:
-          cache: "poetry"
+          version: '3.10'
+          # FIXME: Breaks the workflow for whatever reason.
+          # cache: "poetry"
 
       - name: Install linters & formatters
         run: pip install black flake8 isort pydocstyle toml

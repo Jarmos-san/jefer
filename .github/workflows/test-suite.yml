@@ -22,7 +22,8 @@ jobs:
         uses: actions/setup-python@v4.3.0
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "poetry"
+          # FIXME: Breaks the workflow for whatever reason.
+          # cache: "poetry"
 
       - name: Install Pytest
         run: pip install pytest
