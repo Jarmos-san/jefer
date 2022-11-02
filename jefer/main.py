@@ -28,12 +28,16 @@ def init(
     if not dotfiles_dir.exists():
         dotfiles_dir.mkdir(parents=True, exist_ok=True)
 
-    # Initialise the local Git repository properly.
-    subprocess.run(
-        ["git", "init", f"{dotfiles_dir}"], stdout=subprocess.PIPE, check=True
-    )
-
-    print(f"Created a local Git repository for your dotfiles at {dotfiles_dir}")
+    try:
+        subprocess.run(
+            ["git", "init", f"{dotfiles_dir}"], check=True, stdout=subprocess.PIPE
+        )
+        print(f"Created a local Git repository for your dotfiles at {dotfiles_dir}")
+    except FileNotFoundError as error:
+        print(error)
+        print(
+            "Intialising local Git repository failed, see if Git is installed or not."
+        )
 
 
 @app.command()
