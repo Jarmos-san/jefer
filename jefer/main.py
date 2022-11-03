@@ -65,27 +65,34 @@ def remove() -> None:
 
 
 @app.command()
+def add() -> None:
+    """Add an existing file to the source repository & create a symlink out of it."""
+    pass
+
+
+@app.command()
 def link(
-    source: pathlib.Path = typer.Option(
+    file: pathlib.Path = typer.Option(
         ..., help="The source file which should point to a link somewhere else."
-    ),
-    dest: pathlib.Path = typer.Option(
-        ..., help="The destination of the linked source file."
     ),
 ) -> None:
     """Create a symbolic link for an individual source file."""
-    linked_dotfile = pathlib.Path(pathlib.Path.home() / dest).expanduser()
+    # TODO: Add logic according to the explanation below:
+    # The symlinks are created relative to the root of the filesystem.
+    # So, for a file like this one - "dotfiles/.config/nvim/init.lua" the symlink will
+    # be created at "~/.config/nvim/init.lua"
+    dest = pathlib.Path().home() / file
 
-    if not linked_dotfile.is_symlink():
-        os.symlink(source, dest)
-        print(f"Successfully created symlink {source} -> {dest}!")
+    if not dest.is_symlink():
+        os.symlink(file, dest)
+        print(f"Successfully created symlink {file} -> {dest}!")
 
     # Recreate the data Object to write back to "jefer.json"
     data: dict[str, str] = {}
 
     try:
-        with open(JEFER_DATA_FILE, "r") as file:
-            json.dump(data, file, indent=2, sort_keys=True)
+        with open(JEFER_DATA_FILE, "r") as jefer_data_file:
+            json.dump(data, jefer_data_file, indent=2, sort_keys=True)
     except FileNotFoundError as error:
         raise error
 
