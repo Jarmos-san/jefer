@@ -55,21 +55,13 @@ def init(
 
 
 @app.command()
-def remove(
-    file: Path = typer.Option(..., help="The source file to unlink & remove"),
-) -> None:
-    """Remove a source file & its destination link from the system."""
-    try:
-        with open(JEFER_DATA_FILE, "r") as jefer_data_file:
-            jefer_data = json.load(jefer_data_file)
-    except FileNotFoundError as error:
-        raise error
+def remove() -> None:
+    """
+    Remove a source file & its destination link from the system.
 
-    list_of_dotfiles = jefer_data.get("dotfiles")
-
-    # TODO: Add some more logic to check & remove the file(s).
-    if file in list_of_dotfiles:
-        print(f"Removing {file} from the local dotfiles repository.")
+    (EXPERIMENTAL) Doesn't work for now.
+    """
+    print("This is an experimental feature & doesn't work for now.")
 
 
 @app.command()
