@@ -2,20 +2,20 @@
 
 import json
 import os
+import pathlib
 import subprocess
-from pathlib import Path
 
 import typer
 
-JEFER_DATA_FILE = Path.home() / ".local/share/jefer/jefer.json"
+JEFER_DATA_FILE = pathlib.Path.home() / ".local/share/jefer/jefer.json"
 
 app = typer.Typer()
 
 
 @app.command()
 def init(
-    source: Path = typer.Option(
-        Path.home() / ".dotfiles", help="The path for storing the dotfiles."
+    source: pathlib.Path = typer.Option(
+        pathlib.Path.home() / ".dotfiles", help="The path for storing the dotfiles."
     ),
     remote: str = typer.Option(
         ..., help="The remote repository for backing up the dotfiles."
@@ -66,13 +66,15 @@ def remove() -> None:
 
 @app.command()
 def link(
-    source: Path = typer.Option(
+    source: pathlib.Path = typer.Option(
         ..., help="The source file which should point to a link somewhere else."
     ),
-    dest: Path = typer.Option(..., help="The destination of the linked source file."),
+    dest: pathlib.Path = typer.Option(
+        ..., help="The destination of the linked source file."
+    ),
 ) -> None:
     """Create a symbolic link for an individual source file."""
-    linked_dotfile = Path(Path.home() / dest).expanduser()
+    linked_dotfile = pathlib.Path(pathlib.Path.home() / dest).expanduser()
 
     if not linked_dotfile.is_symlink():
         os.symlink(source, dest)
@@ -97,21 +99,20 @@ def list() -> None:
     except FileNotFoundError as error:
         raise error
 
-    for property in data.get("dotfiles"):
-        if not property:
-            print(f"{property.get('source')} -> {property.get('link')}")
+    for elements in os.walk(data.get("source_dir"), followlinks=True):
+        for file in elements[2]:
+            if pathlib.Path(str(file)).is_symlink():
+                print(f"{file} is linked to {pathlib.Path(str(file)).resolve()}")
 
 
 @app.command()
 def healthcheck() -> None:
-    """Check if all of Jefer's features is working as expected."""
+    """Check if all of Jefer's features are working as expected."""
     try:
         # Check if "git" was installed or not.
         subprocess.run(["git", "--version"], stdout=subprocess.DEVNULL, check=True)
     except FileNotFoundError:
         print("Git was not found, recheck & reinstall it for Jefer to work properly!")
-
-    # TODO: Create more logic to check if the symlinks aren't corrupted.
 
 
 if __name__ == "__main__":
