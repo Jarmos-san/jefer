@@ -7,15 +7,9 @@ from pathlib import Path
 
 import typer
 
+JEFER_DATA_FILE = Path.home() / ".local/share/jefer/jefer.json"
+
 app = typer.Typer()
-
-
-def validate_remote_repo(repo: str) -> bool:
-    """Utilitarian function to check if a remote repository is valid or not."""
-    # TODO: Configure the logic a bit more using regex to check if the suggested remote
-    # repository is valid or not.
-    print(repo)
-    return True
 
 
 @app.command()
@@ -38,25 +32,26 @@ def init(
     # Dictionary representing the initial data about the local dotfiles repository.
     jefer_initialisation_data = {"source_dir": str(dotfiles_dir), "dotfiles": []}
 
-    with open(Path(dotfiles_dir / "jefer.json"), "w") as file:
-        json.dump(jefer_initialisation_data, file)
+    try:
+        with open(JEFER_DATA_FILE, "w") as file:
+            json.dump(jefer_initialisation_data, file)
+    except FileNotFoundError as error:
+        raise error
 
     try:
         subprocess.run(
             ["git", "init", f"{dotfiles_dir}"], check=True, stdout=subprocess.PIPE
         )
 
-        if validate_remote_repo(remote):
-            subprocess.run(
-                ["git", "remote", "add", "origin", f"git@github.com:{remote}"],
-                stdout=subprocess.PIPE,
-            )
+        subprocess.run(
+            ["git", "remote", "add", "origin", f"git@github.com:{remote}"],
+            stdout=subprocess.PIPE,
+        )
+
         print(f"Created a local Git repository for your dotfiles at {dotfiles_dir}")
     except FileNotFoundError as error:
         print(error)
-        print(
-            "Intialising local Git repository failed, see if Git is installed or not."
-        )
+        print("Intialising local Git repository failed, is Git installed?")
 
 
 @app.command()
@@ -64,12 +59,17 @@ def remove(
     file: Path = typer.Option(..., help="The source file to unlink & remove"),
 ) -> None:
     """Remove a source file & its destination link from the system."""
-    source_file = Path(Path.cwd() / file).expanduser()
+    try:
+        with open(JEFER_DATA_FILE, "r") as jefer_data_file:
+            jefer_data = json.load(jefer_data_file)
+    except FileNotFoundError as error:
+        raise error
 
-    if source_file.is_symlink():
-        os.unlink(source_file)
+    list_of_dotfiles = jefer_data.get("dotfiles")
 
-    os.remove(source_file)
+    # TODO: Add some more logic to check & remove the file(s).
+    if file in list_of_dotfiles:
+        print(f"Removing {file} from the local dotfiles repository.")
 
 
 @app.command()
@@ -86,11 +86,28 @@ def link(
         os.symlink(source, dest)
         print(f"Successfully created symlink {source} -> {dest}!")
 
+    # Recreate the data Object to write back to "jefer.json"
+    data: dict[str, str] = {}
+
+    try:
+        with open(JEFER_DATA_FILE, "r") as file:
+            json.dump(data, file, indent=2, sort_keys=True)
+    except FileNotFoundError as error:
+        raise error
+
 
 @app.command()
 def list() -> None:
     """Show the list of files & the path to their destined links."""
-    pass
+    try:
+        with open(JEFER_DATA_FILE, "r") as file:
+            data = json.load(file)
+    except FileNotFoundError as error:
+        raise error
+
+    for property in data.get("dotfiles"):
+        if not property:
+            print(f"{property.get('source')} -> {property.get('link')}")
 
 
 @app.command()
