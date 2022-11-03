@@ -6,6 +6,16 @@ repo_url: https://github.com/Jarmos-san/jefer
 repo_name: Jarmos-san/jefer
 edit_uri: edit/main/docs/
 
+# FIXME: Disables many nice Material features though.
+# nav:
+#   - Home: ./
+#   - About the Project:
+#     - Reasons Behind Creating Jefer: ./about-the-project/why-was-jefer-created
+#     - Features Jefer Offers: ./about-the-project/features-jefer-offers
+#     - Other Dotfiles Management Alternatives: ./about-the-project/alternatives-to-jefer
+#     - Software Specification & Design: ./about-the-project/software-specification
+#   - License: ./license
+
 theme:
   name: material
   icon:
