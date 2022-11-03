@@ -7,58 +7,11 @@ probably right in thinking so. I've used everything from [GNU/Stow][2] to
 [Chezmoi][3] & none of them suited my needs. Hence, I ventured towards building
 my own personalised dotfiles management tool!
 
-## What Does Jefer Have to Offer
-
-A quick Google Search will land you on many such similar projects (_and some of
-which are pretty mature_). If you've been programming for quite a while, you'll
-probably be aware of some of those alternatives. And if this is your first time
-stumbling across the term "_dotfiles management tools_", well don't worry I'll
-share some of those aforementioned tools below.
-
-Regardless, following are the core benefits you'll receive when using `jefer`:
-
-- True cross-platform support thanks to Python (_for now only Linux support is
-  actively worked on_).
-- You've complete control over your configuration files & `jefer` doesn't poke
-  its nose anywhere.
-- Extremely intuitive UI/UX enabling the user to not memorise all the available
-  CLI options & flags.
-
-!!! Warning
-    
-    Development on `jefer` is still **VERY MUCH** a work-in-progress & there's
-    no guranteed, certain features will work as expected! Hence, its
-    recommended to either wait till the first `major` version is released or
-    use the project at your own risk. The project follows
-    [Semantic Versioning][4] & you'll be notified of the latest updates if you
-    subscribe to the repository.
-
-## Existing Alternatives & Their Issues
-
-As mentioned earlier, quite a few such projects already exists but none worked
-out well for me. As such, following are some of the well-known dotfiles manager
-I'm aware of. Please feel free to open a PR if you figured I missed out on
-some of the other existing alternatives.
-
-- [Chezmoi][3]
-- [GNU/Stow][2]
-- [YADM][7]
-
-...and many more!
-
-The said alternatives didn't work out for me because:
-
-1. Chezmoi felt too "bloated" with too many CLI flags/options, features &
-   capabilities.
-
-2. GNU/Stow felt too "minimal" & I was continuosly reinventing the wheel with
-   customised Bash scripts to automate my configuration workflow.
-
-3. YADM was created keeping in mind the needs a MacBook user while I use a wide
-   variety of machines.
-
-For a more detailed explanation on why I created `jefer` check out the ["_Why I
-Created `jefer`_"][8] section of the documentation.
+You can read more about the reasons behind developing the project in the
+"[Reasons Behind Creating Jefer][4]". But the gist is, Jefer provides a more
+intuitive & less bloated alternative to existing alternatives. You can read
+more bout the existing alternatives & Jefer's features at - "[Other Existing
+Dotfiles Management Alternatives][5]" & "[Features Jefer Offers][6]".
 
 ## Getting Started Using the Project
 
@@ -72,10 +25,10 @@ will help you get started with using `jefer`.
     [`pipx`][6]. Its a tool to make installing & using Python-based CLI tools
     much easier.
 
-Before you head over to installing & using `jefer`, ensure you've [`pipx`][6]
-installed. It'll install `jefer` inside a [virtual environment] for you & make
-`jefer` available on `$PATH` as well for you. Once you've installed `pipx`, run
-the following commands to get started:
+Before you head over to installing & using `jefer`, ensure you've [`pipx`][7]
+installed. It'll install `jefer` inside a [virtual environment][8] for you &
+make `jefer` available on `$PATH` as well for you. Once you've installed
+`pipx`, run the following commands to get started:
 
 ```shell
 # Check if "pipx" was installed & made available on $PATH or not.
@@ -85,12 +38,12 @@ pipx --version
 pipx install jefer
 ```
 
-If you successfully installed `jefer`, check out the "[_Usage Guidelines_][10]"
+If you successfully installed `jefer`, check out the "[_Usage Guidelines_][9]"
 section for more information on the daily usage instructions.
 
 ## Contributing to the Project
 
-`jefer` is an open-source project & licensed under the [MIT License][5] as
+`jefer` is an open-source project & licensed under the [MIT License][10] as
 well! What it means is, you as an user are free to take a look at the source &
 contribute to the project as well!
 
@@ -110,7 +63,7 @@ helpful in one way or the other. Having second thoughts about opening your
 first PR? Then feel free to reach out to us.
 
 For more information on the contribution guidelines of the project, refer to
-the "[_Contribution Guidelines_][9]" section of the documentations.
+the "[_Contribution Guidelines_][11]" section of the documentations.
 
 !!! tip
     
@@ -125,17 +78,18 @@ Hence, you're free to copy, modify, redistribute & use the project for both
 commerical & non-commercial purposes as long as you adhere to the T&Cs of the
 license.
 
-For more information on the licensing details, refer to the [LICENSE][5]
+For more information on the licensing details, refer to the [LICENSE][10]
 document.
 
 <!-- Reference Links -->
 [1]: https://dotfiles.github.io
 [2]: https://www.gnu.org/software/stow
 [3]: https://chezmoi.io
-[4]: https://semver.org
-[5]: ../license
-[6]: https://pypa.github.io/pipx
-[7]: https://yadm.io
-[8]: ../about/why-was-jefer-created
-[9]: ./contributing-to-the-project
-[10]: ./usage-guidelines
+[4]: ./about-the-project/why-was-jefer-created
+[5]: ./about-the-project/alternatives-to-jefer
+[6]: ./about-the-project/features-jefer-offers
+[7]: https://pypa.github.io/pipx
+[8]: https://docs.python.org/3/tutorial/venv.html
+[9]: ./usage-guidelines
+[10]: ../license
+[11]: ./contributing-to-the-project

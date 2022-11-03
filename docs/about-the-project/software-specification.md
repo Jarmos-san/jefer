@@ -1,1 +1,1 @@
-# Jefer's Software Specification & Design Justification
+# Software Specification & Design Justification
