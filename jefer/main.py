@@ -2,21 +2,21 @@
 
 import json
 import os
-import pathlib
 import subprocess
+from pathlib import Path
 from typing import Optional
 
 import typer
 
-JEFER_DATA_FILE = pathlib.Path.home() / ".local/share/jefer/jefer.json"
+JEFER_DATA_FILE = Path.home() / ".local/share/jefer/jefer.json"
 
 app = typer.Typer()
 
 
 @app.command()
 def init(
-    source: pathlib.Path = typer.Option(
-        pathlib.Path.home() / ".dotfiles", help="The path for storing the dotfiles."
+    source: Path = typer.Option(
+        Path.home() / ".dotfiles", help="The path for storing the dotfiles."
     ),
     remote: Optional[str] = typer.Option(
         None, help="The remote repository for backing up the dotfiles."
@@ -31,7 +31,7 @@ def init(
         dotfiles_dir.mkdir(parents=True, exist_ok=True)
 
     # Dictionary representing the initial data about the local dotfiles repository.
-    jefer_initialisation_data = {"source_dir": str(dotfiles_dir), "dotfiles": []}
+    jefer_initialisation_data = {"source_directory": str(dotfiles_dir)}
 
     try:
         with open(JEFER_DATA_FILE, "w") as file:
@@ -56,40 +56,43 @@ def init(
 
 
 @app.command()
-def remove() -> None:
-    """
-    Remove a source file & its destination link from the system.
+def remove(
+    file: Path = typer.Option(..., help="Relative path to the file/folder to remove.")
+) -> None:
+    """Remove a source file & its destination link from the system."""
+    try:
+        with open(JEFER_DATA_FILE, "r") as jefer_data_file:
+            data = json.load(jefer_data_file)
+    except FileNotFoundError as error:
+        raise error
 
-    (EXPERIMENTAL) Doesn't work for now.
-    """
-    print("This is an experimental feature & doesn't work for now.")
+    source_directory = Path(data.get("source_directory"))
+    source_file = source_directory / file
+
+    if source_file in source_directory.iterdir():
+        source_file.unlink(missing_ok=True)
+
+    print(f"{file} was unlinked & removed from {source_directory}")
 
 
 @app.command()
 def link(
-    file: pathlib.Path = typer.Option(
+    file: Path = typer.Option(
         ..., help="The source file which should point to a link somewhere else."
     ),
+    target: Path = typer.Option(..., help="The target location for the symlink."),
 ) -> None:
     """Create a symbolic link for an individual source file."""
-    # TODO: Add logic according to the explanation below:
-    # The symlinks are created relative to the root of the filesystem.
-    # So, for a file like this one - "dotfiles/.config/nvim/init.lua" the symlink will
-    # be created at "~/.config/nvim/init.lua"
-    dest = pathlib.Path().home() / file
+    with open(JEFER_DATA_FILE, "r") as jefer_data_file:
+        data = json.load(jefer_data_file)
 
-    if not dest.is_symlink():
-        os.symlink(file, dest)
-        print(f"Successfully created symlink {file} -> {dest}!")
+    source_directory = Path(data.get("source_directory"))
+    source_file = source_directory / file
 
-    # Recreate the data Object to write back to "jefer.json"
-    data: dict[str, str] = {}
+    if not source_file.is_symlink():
+        os.symlink(source_file, Path(target).expanduser())
 
-    try:
-        with open(JEFER_DATA_FILE, "r") as jefer_data_file:
-            json.dump(data, jefer_data_file, indent=2, sort_keys=True)
-    except FileNotFoundError as error:
-        raise error
+    print(f"The {file} is now linked to {file.resolve()}")
 
 
 @app.command()
@@ -101,10 +104,9 @@ def list() -> None:
     except FileNotFoundError as error:
         raise error
 
-    for elements in os.walk(data.get("source_dir"), followlinks=True):
-        for file in elements[2]:
-            if pathlib.Path(str(file)).is_symlink():
-                print(f"{file} is linked to {pathlib.Path(str(file)).resolve()}")
+    for element in Path(data.get("source_directory")).iterdir():
+        if element.is_symlink():
+            print(f"{element} is linked to {element.resolve()}")
 
 
 @app.command()
@@ -115,6 +117,14 @@ def healthcheck() -> None:
         subprocess.run(["git", "--version"], stdout=subprocess.DEVNULL, check=True)
     except FileNotFoundError:
         print("Git was not found, recheck & reinstall it for Jefer to work properly!")
+
+    # INFO: Check if Jefer was initialised or not.
+    if not Path(JEFER_DATA_FILE).exists():
+        print(
+            "Forgot to initialise Jefer? Check 'jefer init --help' for more information"
+        )
+
+    # TODO: Print out some info based on exit codes of the logic above.
 
 
 if __name__ == "__main__":
