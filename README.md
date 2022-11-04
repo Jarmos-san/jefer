@@ -7,7 +7,7 @@ If you Google for dotfiles manager, you will stumble upon a countless
 alternatives. And each one of those tools are very good due to their
 maturity & the community support. You can read more of such alternatives in the
 project documentation -
-"[https://jefer.vercel.app/about-the-project/alternatives-to-jefer][1]"
+"[Existing Alternatives for Managing Your Dotfiles][1]"
 
 And when compared to the existing alternatives, Jefer provides:
 
