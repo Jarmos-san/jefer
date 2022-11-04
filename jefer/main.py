@@ -4,6 +4,7 @@ import json
 import os
 import pathlib
 import subprocess
+from typing import Optional
 
 import typer
 
@@ -17,8 +18,8 @@ def init(
     source: pathlib.Path = typer.Option(
         pathlib.Path.home() / ".dotfiles", help="The path for storing the dotfiles."
     ),
-    remote: str = typer.Option(
-        ..., help="The remote repository for backing up the dotfiles."
+    remote: Optional[str] = typer.Option(
+        None, help="The remote repository for backing up the dotfiles."
     ),
 ) -> None:
     """Create & initialise an empty Git repository locally."""
@@ -43,15 +44,15 @@ def init(
             ["git", "init", f"{dotfiles_dir}"], check=True, stdout=subprocess.PIPE
         )
 
-        subprocess.run(
-            ["git", "remote", "add", "origin", f"git@github.com:{remote}"],
-            stdout=subprocess.PIPE,
-        )
+        if not remote:
+            subprocess.run(
+                ["git", "remote", "add", "origin", f"git@github.com:{remote}"],
+                stdout=subprocess.PIPE,
+            )
 
         print(f"Created a local Git repository for your dotfiles at {dotfiles_dir}")
     except FileNotFoundError as error:
-        print(error)
-        print("Intialising local Git repository failed, is Git installed?")
+        raise error
 
 
 @app.command()
@@ -62,12 +63,6 @@ def remove() -> None:
     (EXPERIMENTAL) Doesn't work for now.
     """
     print("This is an experimental feature & doesn't work for now.")
-
-
-@app.command()
-def add() -> None:
-    """Add an existing file to the source repository & create a symlink out of it."""
-    pass
 
 
 @app.command()
