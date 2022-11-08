@@ -31,7 +31,7 @@ thread.
 Jefer will eventually be available on a lot other platforms like [Homebrew][2],
 [FlatHub][3] & more but for now it's only available through [PyPi][4]. If you
 want Jefer to be available on more platforms, then please refer to the docs on
-"[_Distribution & Release Guidelines][5]" section before opening a discussion
+"[_Distribution & Release Guidelines_][5]" section before opening a discussion
 thread and/or a pull request.
 
 That said, here's how you can install Jefer right now:
