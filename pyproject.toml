@@ -17,7 +17,7 @@ typer = {extras = ["all"], version = ">=0.6.1,<0.8.0"}
 pydocstyle = "^6.1.1"
 black = "^22.10.0"
 mypy = "^0.991"
-flake8 = "^5.0.4"
+flake8 = "^6.0.0"
 isort = "^5.10.1"
 pytest = "^7.2.0"
 mkdocs-material = "^8.5.10"
