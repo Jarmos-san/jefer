@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3.2.0
 
       - name: Setup Python in the CI/CD Pipeline
         uses: actions/setup-python@v4.3.1
