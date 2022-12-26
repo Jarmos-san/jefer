@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3.2.0
 
       - name: Setup Python in the runtime.
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.4.0
         with:
           python-version: ${{ matrix.python-version }}
           # FIXME: Breaks the workflow for whatever reason.
